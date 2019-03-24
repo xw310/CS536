@@ -1,1 +1,1 @@
-# CS536
+machine learning lecture
