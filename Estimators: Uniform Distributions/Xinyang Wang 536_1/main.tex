@@ -1,0 +1,264 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{ 
+numbers=left, 
+numberstyle= \tiny, 
+keywordstyle= \color{ blue!70}, 
+commentstyle= \color{red!50!green!50!blue!50}, 
+frame=shadowbox, % 阴影效果 
+rulesepcolor= \color{ red!20!green!20!blue!20} , 
+escapeinside=``, % 英文分号中可写入中文 
+xleftmargin=2em,xrightmargin=2em, aboveskip=1em, 
+framexleftmargin=2em 
+} 
+
+\title{536}
+\author{Xinyang Wang }
+\date{189001002}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+% margin
+\addtolength{\textwidth}{1in}
+\addtolength{\oddsidemargin}{-0.375in}
+\addtolength{\evensidemargin}{-0.375in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+\setlength\parindent{0cm}
+
+\begin{document}
+
+\maketitle
+
+\section{HW0}
+% 1
+\subsection{}
+\begin{flalign*}
+\begin{split}
+MSE(\hat{L})&=\mathbb{E}[(\hat{L}-L)^2]\\
+&=\mathbb{E}[\hat{L}^2-2\hat{L}L+L^2]\\
+&=\mathbb{E}[\hat{L}^2]-\mathbb{E}[2\hat{L}L]+\mathbb{E}[L^2]\\
+&=\mathbb{E}[\hat{L}^2]-2L\mathbb{E}[\hat{L}]+L^2\\
+&=\mathbb{E}[\hat{L}^2]-2L\mathbb{E}[\hat{L}]+L^2+\mathbb{E}[\hat{L}]^2-\mathbb{E}[\hat{L}]^2\\
+&=(\mathbb{E}[\hat{L}^2]-\mathbb{E}[\hat{L}]^2)+(L-\mathbb{E}[\hat{L}])^2\\
+&=var(\hat{L})+bias(\hat{L})^2
+\end{split}&
+\end{flalign*}
+
+% 2
+\subsection{}
+\begin{enumerate}
+\par \item $for \quad \hat{L}_{MOM}:$
+\begin{flalign*}
+\begin{split}
+\mathbb{E}[\hat{L}_{MOM}]&=\mathbb{E}[2\overline{X_n}]\\
+&=2\frac{1}{n}\mathbb{E}[\sum_{i=1}^{n}X_i]\\
+&=2\mathbb{E}[X_i]\\
+&=L
+\end{split}&
+\end{flalign*}
+
+\begin{flalign*}
+\begin{split}
+bias(\hat{L}_{MOM})&=L-\mathbb{E}[\hat{L}_{MOM}]\\
+&=0
+\end{split}&
+\end{flalign*}
+
+\par \item $for \quad \hat{L}_{MLE}:$
+
+$\mathbb{E}[\hat{L}_{MLE}]=\mathbb{E}[\max\limits_{i=1,...,n}X_i]$
+\par According to conclusion of problem 1) in HW0:\\
+\begin{flalign*}
+\begin{split}
+\mathbb{E}[\max\limits_{i=1,...,n}X_i]&=\int_0^L\frac{n}{L}(\frac{x}{L})^{n-1}xdx\\
+&=\frac{n}{n+1}L
+\end{split}&
+\end{flalign*}
+
+\begin{flalign*}
+\begin{split}
+bias(\hat{L}_{MLE})&=L-\mathbb{E}[\hat{L}_{MLE}]\\
+&=\frac{1}{n+1}L
+\end{split}&
+\end{flalign*}
+
+\end{enumerate}
+
+% 3
+\subsection{}
+\begin{enumerate}
+\par \item $for \quad \hat{L}_{MOM}:$
+\begin{flalign*}
+\begin{split}
+Var(\hat{L}_{MOM})&=var(2\overline{X_n})\\
+&=\frac{4}{n^2}var(\sum_{i=1}^{n}X_i)\\
+&=\frac{4}{n}var(X_i)\\
+&=\frac{4}{n}*\frac{L^2}{12}\\
+&=\frac{L^2}{3n}
+\end{split}&
+\end{flalign*}
+
+\par \item $for \quad \hat{L}_{MLE}:$
+
+$Var(\hat{L}_{MLE})=\mathbb{E}[\hat{L}_{MLE}^2]-\mathbb{E}[\hat{L}_{MLE}]^2$\\
+\par According to conclusion of problem 1) in HW0:\\
+
+\begin{flalign*}
+\begin{split}
+\mathbb{E}[\max\limits_{i=1,...,n}X_i^2]&=\int_0^L\frac{n}{L}(\frac{x}{L})^{n-1}x^2dx\\
+&=\frac{n}{n+2}L^2
+\end{split}&
+\end{flalign*}
+
+\par According to 2) in 1.2, $\mathbb{E}[\hat{L}_{MLE}]=\frac{n}{n+1}L$,so\\
+\begin{flalign*}
+\begin{split}
+Var(\hat{L}_{MLE})&=\mathbb{E}[\hat{L}_{MLE}^2]-\mathbb{E}[\hat{L}_{MLE}]^2\\
+&=\frac{n}{n+2}L^2 - \frac{n^2}{(n+1)^2}L^2\\
+&=\frac{n}{(n+1)^2(n+2)}L^2 
+\end{split}&
+\end{flalign*}
+
+\end{enumerate}
+
+% 4
+\subsection{}
+\par According to 1.1, we have:\\
+$MSE(\hat{L})=var(\hat{L})+bias(\hat{L})^2$\\
+\par $for \quad \hat{L}_{MOM}:$\\
+\begin{flalign*}
+\begin{split}
+MSE(\hat{L}_{MOM})&=var(\hat{L}_{MOM})+bias(\hat{L}_{MOM})^2\\
+&=\frac{L^2}{3n}
+\end{split}&
+\end{flalign*}
+
+\par $for \quad \hat{L}_{MLE}:$\\
+\begin{flalign*}
+\begin{split}
+MSE(\hat{L}_{MLE})&=var(\hat{L}_{MLE})+bias(\hat{L}_{MLE})^2\\
+&=\frac{n}{(n+1)^2(n+2)}L^2 +(L-\frac{n}{n+1}L)^2\\
+&=\frac{2L^2}{(n+1)(n+2)}
+\end{split}&
+\end{flalign*}
+
+\par Based on the conclusion above, we can see that when n is bigger than 2, $MSE(\hat{L}_{MLE})$ is always smaller than $MSE(\hat{L}_{MOM})$, So MLE is the better estimator.
+
+% 5
+\subsection{}
+\par Below is the code in Python to verify experimentally:
+\begin{lstlisting}
+import random
+import sys
+from sys import argv
+
+#script,log = argv
+#f = open(log,'a')
+#__con__ = sys.stderr
+#sys.stderr = f
+
+n=100
+L=10
+theo_MSE_MOM = L**2/(3*n)
+theo_MSE_MLE = 2*L**2/((n+1)*(n+2))
+print(f'theoretical MSE of MOM is {theo_MSE_MOM}\n')
+print(f'theoretical MSE of MLE is {theo_MSE_MLE}\n')
+
+list_for_MOM = []
+list_for_MLE = []
+for i in range(1000):
+    list_for_sample = []
+    for j in range(100):
+        sample = random.random()
+        sample *= L
+        list_for_sample.append(sample)
+    L_MOM = sum(list_for_sample)/n*2
+    L_MLE = max(list_for_sample)
+    list_for_MOM.append(L_MOM)
+    list_for_MLE.append(L_MLE)
+
+# compute expectation of MSE_MOM
+MSE_for_MOM = 0
+for i in range(1000):
+    MSE_for_MOM += (list_for_MOM[i]-L)**2
+MSE_for_MOM /= 1000
+print(f'estimated MSE of MOM is {MSE_for_MOM}\n')
+
+# compute expectation of MSE_MLE
+MSE_for_MLE = 0
+for i in range(1000):
+    MSE_for_MLE += (list_for_MLE[i]-L)**2
+MSE_for_MLE /= 1000
+print(f'estimated MSE of MOM is {MSE_for_MLE}\n')
+\end{lstlisting}
+
+\par Here is the result of the code:
+\begin{lstlisting}
+theoretical MSE of MOM is 0.3333333333333333
+
+theoretical MSE of MLE is 0.01941370607649
+
+estimated MSE of MOM is 0.33047168040779124
+
+estimated MSE of MOM is 0.01927705870982061
+\end{lstlisting}
+\par As we can see from above, MSEs from the experiments are very close to their theoretical values,
+
+
+% 6
+\subsection{}
+\par We take a look at the definition of two estimators:
+\par $\hat{L}_{MOM}=2\overline{X}_n$, while $\hat{L}_{MLE}=\max\limits_{i=1,...,n}X_i$
+\par We find that $\hat{L}_{MLE}$ tries to reach the real value of L from left,which means that $\hat{L}_{MLE}$ can not exceed L. While $\hat{L}_{MOM}$ can be smaller or bigger than L. So by intuition, $\hat{L}_{MOM}$ can deviate more from the real value of L. This means a bigger variance which leads to a bigger MSE.
+\par Besides, the real value of L should be bigger than $\hat{L}_{MLE}$. So it is reasonable that $\hat{L}_{MOM}>\hat{L}_{MLE}$. While there are situations where $\hat{L}_{MOM}<\hat{L}_{MLE}$ (in this situation,$\hat{L}_{MOM}$ is a bad estimation). So $\hat{L}_{MOM}$ is less reliable.
+
+% 7
+\subsection{}
+\par According to conclusion of problem 1) in HW0:\\
+\begin{flalign*}
+\begin{split}
+P(\hat{L}_{MLE}<L-\epsilon)&=P(\max\limits_{i=1,...,n}X_i<L-\epsilon)\\
+&=P(X<L-\epsilon)^n\\
+&=(\frac{L-\epsilon}{L})^n
+\end{split}&
+\end{flalign*}
+
+\par According to requirement: 
+\par We need: $P(\hat{L}_{MLE}<L-\epsilon) \geq 1-\delta$
+\par So we need $n\geq \frac{\ln{(1-\delta)}}{\ln{(L-\epsilon)}-\ln{L}}$
+
+% 8
+\subsection{}
+\par With new estimator $\hat{L}_{MLE-new}=\frac{n+1}{n}\hat{L}_{MLE-old}$ ($\hat{L}_{MLE-old}=\max\limits_{i=1,...,n}X_i$)
+\begin{flalign*}
+\begin{split}
+bias(\hat{L}_{MLE-new})&=L-\mathbb{E}[\frac{n+1}{n}\hat{L}_{MLE-old}]\\
+&=L-\frac{n+1}{n}\mathbb{E}[\hat{L}_{MLE-old}]\\
+&=L-\frac{n+1}{n}*\frac{n}{n+1}L\\
+&=0
+\end{split}&
+\end{flalign*}
+\par So $\hat{L}_{MLE-new}$ is an unbiased estimator
+
+\par Now we recompute the MSE for this new MLE estimator\\
+\begin{flalign*}
+\begin{split}
+var(\hat{L}_{MLE-new}) &= var(\frac{n+1}{n}\hat{L}_{MLE-old})\\
+&=(\frac{n+1}{n})^2 var(\hat{L}_{MLE-old})\\
+&=(\frac{n+1}{n})^2 \frac{n}{(n+1)^2(n+2)}L^2\\
+&=\frac{L^2}{n(n+2)}
+\end{split}&
+\end{flalign*}
+\par So $MSE(\hat{L}_{MLE-new})=var(\hat{L}_{MLE-new})=\frac{L^2}{n(n+2)}$
+\par Compared with $MSE(\hat{L}_{MOM})$,when $n>1$, $MSE(\hat{L}_{MLE-new})$ is always smaller than $MSE(\hat{L}_{MOM})$.
+
+
+\end{document}
